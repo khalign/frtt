@@ -36,7 +36,14 @@ const Styles = styled.div`
 
 function Table({ columns, data }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data }, useSortBy);
+    useTable(
+      {
+        columns,
+        data,
+        initialState: { sortBy: [{ id: "increase", desc: true }] },
+      },
+      useSortBy
+    );
 
   return (
     <table {...getTableProps()}>
