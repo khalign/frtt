@@ -2,6 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { useTable, useSortBy } from "react-table";
 // import logo from './logo.svg';
+import { getList } from "./prepareData";
 import "./App.css";
 
 const Styles = styled.div`
@@ -71,6 +72,17 @@ function Table({ columns, data }) {
 }
 
 function App() {
+  const [list, setList] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchList = async () => {
+      const data = await getList();
+      data && setList(data);
+    };
+
+    fetchList();
+  }, []);
+
   const columns = React.useMemo(
     () => [
       {
@@ -93,18 +105,9 @@ function App() {
     []
   );
 
-  const data = React.useMemo(
-    () => [
-      { name: "BTC", current: 47000, opening: 43000, increase: "10% ($4000)" },
-      { name: "ETH", current: 3200, opening: 2800, increase: "9% (400)" },
-      { name: "BNB", current: 410, opening: 370, increase: "10% ($40)" },
-    ],
-    []
-  );
-
   return (
     <Styles>
-      <Table columns={columns} data={data} />
+      <Table columns={columns} data={list} />
     </Styles>
   );
 }
